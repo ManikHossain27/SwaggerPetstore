@@ -169,13 +169,28 @@ npm install -g newman-reporter-htmlextra
 	5. > Response Time below 350ms
 ## Store
 1. ## Add a new pet to the store
-
+	1. > Successful message
+	2. > Response Time below 350ms
 2. ## Find Pet by ID
-
+	1. > Order ID
+	2. > Quantity
+	3. > Ship Date
+	4. > Status
+	5. > Complete
+	6. > Response Time below 350ms
 3. ## Update an existing pet
-
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350ms
 4. ## Find pet after Update
-
+	1. > Sold
+	2. > String
+	3. > Unavailable
+	4. > Pending
+    	5. > Available
+	6. > Response Time below 350ms
 
 
 ## Newman Report Summary:
