@@ -38,12 +38,13 @@ npm install -g newman-reporter-htmlextra
 ## Test case list:
 ## User
    1. ### Create a user
-   	> Create Data Sets Using the Dynamic Random Variables.
-    	1. >  Successful message
-	2. > Response time
-	3. >Response type
-	4. > Response message
-	5. > Status code
+> Create Data Sets Using the Dynamic Random Variables.
+1. >  Successful message
+2. > Response time
+3. >Response type
+4. > Response message
+5. > Status code
+   
    2. ### Get a user
    3. ### Update a user
    4. ### Get a user after Update
