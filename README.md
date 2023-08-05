@@ -189,7 +189,7 @@ npm install -g newman-reporter-htmlextra
 	2. > String
 	3. > Unavailable
 	4. > Pending
-    	5. > Available
+	5. > Available
 	6. > Response Time below 350ms
 
 
