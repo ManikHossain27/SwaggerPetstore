@@ -47,7 +47,7 @@ npm install -g newman-reporter-htmlextra
    
 2. ### Get a user
 	1. > User ID
-    	2. > User name
+        2. > User name
 	3. > First name
 	4. > Last name
 	5. > Email
