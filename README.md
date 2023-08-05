@@ -108,8 +108,36 @@ npm install -g newman-reporter-htmlextra
 	6. > Phone
 	7. > User Status
 	8. > Response Time below 350
+
 ## Pet
+1. ## Add a new pet to the store
+
+2. ## Find Pet by ID
+
+3. ## Update an existing pet
+
+4. ## Find pet after Update
+
+5. ## Upload an image
+
+6. ## Find Pets bt status
+
+7. ## Update a pet in the store with form-data
+
+8. ## Find pet after update
+
+9. ## Delete pet
+
 ## Store
+1. ## Add a new pet to the store
+
+2. ## Find Pet by ID
+
+3. ## Update an existing pet
+
+4. ## Find pet after Update
+
+
 
 ## Newman Report Summary:
 ![Newman Report Summary](https://github.com/ManikHossain27/SwaggerPetstore/assets/131261253/a44582b5-0d75-4070-9a73-bb770e00358b)
