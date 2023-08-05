@@ -83,7 +83,7 @@ npm install -g newman-reporter-htmlextra
 	5. > Response Time below 350
 7. ### User Login
 	1. > Successful message
-    	2. > Response Code
+	2. > Response Code
 	3. > Response type
 	4. > Response message
 	5. > Response Time below 350
@@ -95,13 +95,13 @@ npm install -g newman-reporter-htmlextra
 	5. > Response Time below 350
 9. ### Create List of users with Array
 	1. > Successful message
-    	2. > Response Code
+	2. > Response Code
 	3. > Response type
 	4. > Response message
 	5. > Response Time below 350
 10. ### Get a User from Array
 	1. > User ID
-    	2. > User name
+	2. > User name
 	3. > First name
 	4. > Last name
 	5. > Email
