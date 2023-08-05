@@ -1,4 +1,4 @@
-# SwaggerPetstore
+# SwaggerPetstore_Rest_API_Newman
 
 ## How to run this project
 - Clone this project
@@ -36,6 +36,11 @@ npm install -g newman-reporter-htmlextra
 - https://documenter.getpostman.com/view/26899722/2s9XxyRYjq
 
 ## Test case list:
+1. ### User
+   ## Create a user
+   ## Get a user
+3. ### Pet
+4. ### Store
 1. ### Create Student
 	> Create Data Sets Using the Dynamic Random Variables.
 
