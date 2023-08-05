@@ -46,29 +46,29 @@ npm install -g newman-reporter-htmlextra
 	5. > Response Time below 350
    
 2. ### Get a user
-	1. > User ID
-        2. > User name
-	3. > First name
-	4. > Last name
-	5. > Email
-	6. > Phone
-	7. > User Status
-	8. > Response Time below 350
+1. > User ID
+2. > User name
+3. > First name
+4. > Last name
+5. > Email
+6. > Phone
+7. > User Status
+8. > Response Time below 350
 3. ### Update a user
-	1. > Successful message
-	2. > Response Code
-	3. > Response type
-	4. > Response message
-	5. > Response Time below 350
+1. > Successful message
+2. > Response Code
+3. > Response type
+4. > Response message
+5. > Response Time below 350
 4. ### Get a user after Update
-	1. > User ID
-    	2. > User name
-	3. > First name
-	4. > Last name
-	5. > Email
-	6. > Phone
-	7. > User Status
-	8. > Response Time below 350
+1. > User ID
+2. > User name
+3. > First name
+4. > Last name
+5. > Email
+6. > Phone
+7. > User Status
+8. > Response Time below 350
 5. ### Delete a user
 	1. > Successful message
 	2. > Response Code
@@ -88,11 +88,11 @@ npm install -g newman-reporter-htmlextra
 	4. > Response message
 	5. > Response Time below 350
 8. ### User Logout
-	1. > Successful message
-    	2. > Response Code
-	3. > Response type
-	4. > Response message
-	5. > Response Time below 350
+1. > Successful message
+2. > Response Code
+3. > Response type
+4. > Response message
+5. > Response Time below 350
 9. ### Create List of users with Array
 	1. > Successful message
     	2. > Response Code
