@@ -1,0 +1,2179 @@
+{
+	"info": {
+		"_postman_id": "95c62bf6-9961-4c29-aea6-a2b418fd3c15",
+		"name": "SwaggerPetstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26899722"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create a user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let id = Math.floor(Math.random()*10000);\r",
+									"console.log(\"id: \" + id);\r",
+									"pm.environment.set(\"id\", id);\r",
+									"\r",
+									"let userName = \"TestUser\" + Math.floor(Math.random()*1000);\r",
+									"console.log(\"User Name: \" + userName);\r",
+									"pm.environment.set(\"userName\", userName);\r",
+									"\r",
+									"var firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
+									"console.log(\"First Name: \"+firstName)\r",
+									"pm.environment.set(\"firstName\", firstName)\r",
+									"\r",
+									"var lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+									"console.log(\"Last Name: \"+lastName)\r",
+									"pm.environment.set(\"lastName\", lastName)\r",
+									"\r",
+									"let email = userName +\"@gmail.com\";\r",
+									"console.log(\"Email: \" + email);\r",
+									"pm.environment.set(\"email\", email);\r",
+									"\r",
+									"let password = \"TestUser\" + Math.floor(Math.random()*100000);\r",
+									"console.log(\"Password: \" + password);\r",
+									"pm.environment.set(\"password\", password);\r",
+									"\r",
+									"let phone = \"+88015\" + Math.floor(Math.random()*100000000);\r",
+									"console.log(\"Phone number: \" + phone);\r",
+									"pm.environment.set(\"phone\", phone);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json()\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully create the user record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"id\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"id\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"\r",
+									"        pm.environment.set(\"userStatus\", requestBody.userStatus);\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{id}},\r\n  \"username\": \"{{userName}}\", \r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\", \r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"phone\": \"{{phone}}\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json()\r",
+									"        //GET response validation\r",
+									"        pm.test(\"Verify id is \" + pm.environment.get(\"id\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"id\")).to.equal(resBody.id);\r",
+									"        })\r",
+									"        pm.test(\"Verify UserName is \" + pm.environment.get(\"userName\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"userName\")).to.equal(resBody.username);\r",
+									"        })\r",
+									"        pm.test(\"Verify fistName \" + pm.environment.get(\"firstName\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"firstName\") ).to.equal( resBody.firstName );\r",
+									"        })\r",
+									"        pm.test(\"Verify lastName \" + pm.environment.get(\"lastName\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"lastName\") ).to.equal( resBody.lastName );\r",
+									"        })\r",
+									"        pm.test(\"Verify email \" + pm.environment.get(\"email\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"email\") ).to.equal( resBody.email );\r",
+									"        })\r",
+									"        pm.test(\"Verify phone \" + pm.environment.get(\"phone\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"phone\") ).to.equal( resBody.phone );\r",
+									"        })\r",
+									"        pm.test(\"Verify userStatus \" + pm.environment.get(\"userStatus\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"userStatus\") ).to.equal( resBody.userStatus );\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userName}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let userName = \"TestUser\" + Math.floor(Math.random()*1000);\r",
+									"console.log(\"User Name: \" + userName);\r",
+									"pm.environment.set(\"userName\", userName);\r",
+									"\r",
+									"let id = Math.floor(Math.random()*10000);\r",
+									"console.log(\"id: \" + id);\r",
+									"pm.environment.set(\"id\", id);\r",
+									"\r",
+									"let email = userName +\"@gmail.com\";\r",
+									"console.log(\"Email: \" + email);\r",
+									"pm.environment.set(\"email\", email);\r",
+									"\r",
+									"let phone = \"+88015\" + Math.floor(Math.random()*100000000);\r",
+									"console.log(\"Phone number: \" + phone);\r",
+									"pm.environment.set(\"phone\", phone);\r",
+									"\r",
+									"var firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
+									"console.log(\"First Name: \"+firstName)\r",
+									"pm.environment.set(\"firstName\", firstName)\r",
+									"\r",
+									"var lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+									"console.log(\"Last Name: \"+lastName)\r",
+									"pm.environment.set(\"lastName\", lastName)\r",
+									"\r",
+									"let password = \"TestUser\" + Math.floor(Math.random()*100000);\r",
+									"console.log(\"Password: \" + password);\r",
+									"pm.environment.set(\"password\", password);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json()\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully update the user record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"id\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"id\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"\r",
+									"        pm.environment.set(\"userStatus\", requestBody.userStatus);\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{id}},\r\n  \"username\": \"{{userName}}\", \r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\", \r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"phone\": \"{{phone}}\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/{{userName}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user after Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json()\r",
+									"        //GET response validation\r",
+									"        pm.test(\"Verify id is \" + pm.environment.get(\"id\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"id\")).to.equal(resBody.id);\r",
+									"        })\r",
+									"        pm.test(\"Verify UserName is \" + pm.environment.get(\"userName\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"userName\")).to.equal(resBody.username);\r",
+									"        })\r",
+									"        pm.test(\"Verify fistName \" + pm.environment.get(\"firstName\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"firstName\") ).to.equal( resBody.firstName );\r",
+									"        })\r",
+									"        pm.test(\"Verify lastName \" + pm.environment.get(\"lastName\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"lastName\") ).to.equal( resBody.lastName );\r",
+									"        })\r",
+									"        pm.test(\"Verify email \" + pm.environment.get(\"email\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"email\") ).to.equal( resBody.email );\r",
+									"        })\r",
+									"        pm.test(\"Verify phone \" + pm.environment.get(\"phone\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"phone\") ).to.equal( resBody.phone );\r",
+									"        })\r",
+									"        pm.test(\"Verify userStatus \" + pm.environment.get(\"userStatus\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"userStatus\") ).to.equal( resBody.userStatus );\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userName}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully delete the user record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"userName\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"userName\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userName}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user after Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        pm.test(\"The request was successful\")\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully delete the user record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 1 in Response Body\", function(){\r",
+									"            pm.expect(1).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'error' in Response Body\", function(){\r",
+									"            pm.expect(\"error\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + \"User not found\" + \" in Response Body\", function(){\r",
+									"            pm.expect(\"User not found\").to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userName}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully Login to your account.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"{{userName}}\",\r\n\t\"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully Logout from your account.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify message is 'ok' in Response Body\", function(){\r",
+									"            pm.expect(\"ok\").to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create list of users with array",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let id = Math.floor(Math.random()*10000);\r",
+									"console.log(\"id: \" + id);\r",
+									"pm.environment.set(\"id\", id);\r",
+									"\r",
+									"let userName = \"TestUser\" + Math.floor(Math.random()*1000);\r",
+									"console.log(\"User Name: \" + userName);\r",
+									"pm.environment.set(\"userName\", userName);\r",
+									"\r",
+									"var firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
+									"console.log(\"First Name: \"+firstName)\r",
+									"pm.environment.set(\"firstName\", firstName)\r",
+									"\r",
+									"var lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+									"console.log(\"Last Name: \"+lastName)\r",
+									"pm.environment.set(\"lastName\", lastName)\r",
+									"\r",
+									"let email = userName +\"@gmail.com\";\r",
+									"console.log(\"Email: \" + email);\r",
+									"pm.environment.set(\"email\", email);\r",
+									"\r",
+									"let password = \"TestUser\" + Math.floor(Math.random()*100000);\r",
+									"console.log(\"Password: \" + password);\r",
+									"pm.environment.set(\"password\", password);\r",
+									"\r",
+									"let phone = \"+88015\" + Math.floor(Math.random()*100000000);\r",
+									"console.log(\"Phone number: \" + phone);\r",
+									"pm.environment.set(\"phone\", phone);\r",
+									"\r",
+									"\r",
+									"\r",
+									"let id1 = Math.floor(Math.random()*10000);\r",
+									"console.log(\"id1: \" + id);\r",
+									"pm.environment.set(\"id1\", id1);\r",
+									"\r",
+									"let userName1 = \"TestUser\" + Math.floor(Math.random()*1000);\r",
+									"console.log(\"User Name1: \" + userName1);\r",
+									"pm.environment.set(\"userName1\", userName1);\r",
+									"\r",
+									"var firstName1 = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
+									"console.log(\"First Name1: \"+ firstName1)\r",
+									"pm.environment.set(\"firstName1\", firstName1)\r",
+									"\r",
+									"var lastName1 = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+									"console.log(\"Last Name1: \"+lastName)\r",
+									"pm.environment.set(\"lastName1\", lastName1)\r",
+									"\r",
+									"let email1 = userName +\"@gmail.com\";\r",
+									"console.log(\"Email1: \" + email1);\r",
+									"pm.environment.set(\"email1\", email1);\r",
+									"\r",
+									"let password1 = \"TestUser\" + Math.floor(Math.random()*100000);\r",
+									"console.log(\"Password1: \" + password1);\r",
+									"pm.environment.set(\"password1\", password1);\r",
+									"\r",
+									"let phone1 = \"+88015\" + Math.floor(Math.random()*100000000);\r",
+									"console.log(\"Phone number1: \" + phone1);\r",
+									"pm.environment.set(\"phone1\", phone1);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json()\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully create the user record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is 'ok' in Response Body\", function(){\r",
+									"            pm.expect(\"ok\").to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"\r",
+									"        pm.environment.set(\"userStatus\", requestBody[0].userStatus);\r",
+									"        pm.environment.set(\"userStatus1\", requestBody[1].userStatus);\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"id\": {{id}},\r\n    \"username\": \"{{userName}}\",\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"phone\": \"{{phone}}\",\r\n    \"userStatus\": 0\r\n  },\r\n  {\r\n    \"id\": {{id1}},\r\n    \"username\": \"{{userName1}}\",\r\n    \"firstName\": \"{{firstName1}}\",\r\n    \"lastName\": \"{{lastName1}}\",\r\n    \"email\": \"{{email1}}\",\r\n    \"password\": \"{{password1}}\",\r\n    \"phone\": \"{{phone1}}\",\r\n    \"userStatus\": 0\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/createWithArray",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"createWithArray"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user from Array",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json()\r",
+									"        //GET response validation\r",
+									"        pm.test(\"Verify id is \" + pm.environment.get(\"id1\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"id1\")).to.equal(resBody.id);\r",
+									"        })\r",
+									"        pm.test(\"Verify UserName is \" + pm.environment.get(\"userName1\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"userName1\")).to.equal(resBody.username);\r",
+									"        })\r",
+									"        pm.test(\"Verify fistName \" + pm.environment.get(\"firstName1\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"firstName1\") ).to.equal( resBody.firstName );\r",
+									"        })\r",
+									"        pm.test(\"Verify lastName \" + pm.environment.get(\"lastName1\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"lastName1\") ).to.equal( resBody.lastName );\r",
+									"        })\r",
+									"        pm.test(\"Verify email \" + pm.environment.get(\"email1\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"email1\") ).to.equal( resBody.email );\r",
+									"        })\r",
+									"        pm.test(\"Verify phone \" + pm.environment.get(\"phone1\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"phone1\") ).to.equal( resBody.phone );\r",
+									"        })\r",
+									"        pm.test(\"Verify userStatus \" + pm.environment.get(\"userStatus1\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"userStatus1\") ).to.equal( resBody.userStatus );\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userName1}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userName1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Place an order for a pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json()\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully placed an order\");\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"\r",
+									"        pm.environment.set(\"order_id\", resBody.id);\r",
+									"        pm.environment.set(\"shipDate\", resBody.shipDate);\r",
+									"        pm.environment.set(\"status\", resBody.status);\r",
+									"        pm.environment.set(\"complete\", resBody.complete);\r",
+									"\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let quantity = Math.floor( Math.random()*10 );\r",
+									"pm.environment.set(\"quantity\", quantity);\r",
+									"console.log(\"quantity \" + quantity);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"petId\": {{petId}},\r\n  \"quantity\": {{quantity}},\r\n  \"shipDate\": \"2023-08-05T09:50:44.505Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/store/order",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find purchase order by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json()\r",
+									"        //GET response validation\r",
+									"        pm.test(\"Verify order id is \" + pm.environment.get(\"order_id\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"order_id\")).to.equal(resBody.id);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Pet id is \" + pm.environment.get(\"petId\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"petId\")).to.equal(resBody.petId);\r",
+									"        })\r",
+									"        pm.test(\"Verify quantity is \" + pm.environment.get(\"quantity\") + \" same as POST request\", function(){\r",
+									"            pm.expect(pm.environment.get(\"quantity\")).to.equal(resBody.quantity);\r",
+									"        })\r",
+									"        pm.test(\"Verify shipDate \" + pm.environment.get(\"shipDate\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"shipDate\") ).to.equal( resBody.shipDate );\r",
+									"        })\r",
+									"        pm.test(\"Verify status \" + pm.environment.get(\"status\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"status\") ).to.equal( resBody.status );\r",
+									"        })\r",
+									"        pm.test(\"Verify complete \" + pm.environment.get(\"complete\") + \" same as POST request\", function(){\r",
+									"            pm.expect( pm.environment.get(\"complete\") ).to.equal( resBody.complete );\r",
+									"        })\r",
+									"        \r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/store/order/{{order_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Purchase order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully delete the purchase record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"order_id\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"order_id\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/store/order/{{order_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Returns pet incentories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"\r",
+									"        pm.test(\"Verify sold item is \" + resBody.sold + \" present in Response Body\");\r",
+									"        pm.test(\"Verify string item is \" + resBody.string + \" present in Response Body\");\r",
+									"        pm.test(\"Verify sold item is \" + resBody.unavailable + \" present in Response Body\");\r",
+									"        pm.test(\"Verify pending item is \" + resBody.pending + \" present in Response Body\");\r",
+									"        pm.test(\"Verify available item is \" + resBody.available + \" present in Response Body\");\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/store/inventory",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "Add a new pet to the store",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let petId = pm.variables.replaceIn(\"{{$randomInt}}\");\r",
+									"pm.environment.set(\"petId\", petId);\r",
+									"console.log(\"petId: \" + petId);\r",
+									"\r",
+									"let category_id = Math.floor(Math.random()*1000);\r",
+									"pm.environment.set(\"category_id\", category_id);\r",
+									"console.log(\"category_id: \" + category_id);\r",
+									"\r",
+									"let category_name = \"TestCategory\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"category_name\", category_name);\r",
+									"console.log(\"category_name: \" + category_name);\r",
+									"\r",
+									"let pet_name = \"TestPet\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"pet_name\", pet_name);\r",
+									"console.log(\"pet_name: \" + pet_name);\r",
+									"\r",
+									"let photoUrls = pm.variables.replaceIn(\"{{$randomUrl}}\");\r",
+									"pm.environment.set(\"photoUrls\", photoUrls);\r",
+									"console.log(\"photoUrls: \" + photoUrls);\r",
+									"\r",
+									"let tag_id = Math.floor(Math.random()*1000);\r",
+									"pm.environment.set(\"tag_id\", tag_id);\r",
+									"console.log(\"tag_id: \" + tag_id);\r",
+									"\r",
+									"let tag_name = \"TestTag\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"tag_name\", tag_name);\r",
+									"console.log(\"tag_name: \" + tag_name);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json();\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully create the pet record.\");\r",
+									"        \r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{petId}},\r\n  \"category\": {\r\n    \"id\": {{category_id}},\r\n    \"name\": \"{{category_name}}\"\r\n  },\r\n  \"name\": \"{{pet_name}}\",\r\n  \"photoUrls\": [\r\n    \"{{photoUrls}}\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": {{tag_id}},\r\n      \"name\": \"{{tag_name}}\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/pet",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json();\r",
+									"\r",
+									"        pm.test(\"Verify Pet id is \" + resBody.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.id).to.equal( parseInt(pm.environment.get(\"petId\") ));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category id is \" + resBody.category.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.id).to.equal(pm.environment.get(\"category_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category name is \" + resBody.category.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.name).to.equal(pm.environment.get(\"category_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet name is \" + resBody.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.name).to.equal(pm.environment.get(\"pet_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify photoUrls is \" + resBody.photoUrls + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.photoUrls[0]).to.equal(pm.environment.get(\"photoUrls\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag id is \" + resBody.tags.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].id).to.equal(pm.environment.get(\"tag_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag name is \" + resBody.tags.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].name).to.equal(pm.environment.get(\"tag_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify status is \" + resBody.status + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.status).to.equal(\"available\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let petId = pm.variables.replaceIn(\"{{$randomInt}}\");\r",
+									"pm.environment.set(\"petId\", petId);\r",
+									"console.log(\"petId: \" + petId);\r",
+									"\r",
+									"let category_id = Math.floor(Math.random()*1000);\r",
+									"pm.environment.set(\"category_id\", category_id);\r",
+									"console.log(\"category_id: \" + category_id);\r",
+									"\r",
+									"let category_name = \"TestCategory\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"category_name\", category_name);\r",
+									"console.log(\"category_name: \" + category_name);\r",
+									"\r",
+									"let pet_name = \"TestPet\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"pet_name\", pet_name);\r",
+									"console.log(\"pet_name: \" + pet_name);\r",
+									"\r",
+									"let photoUrls = pm.variables.replaceIn(\"{{$randomUrl}}\");\r",
+									"pm.environment.set(\"photoUrls\", photoUrls);\r",
+									"console.log(\"photoUrls: \" + photoUrls);\r",
+									"\r",
+									"let tag_id = Math.floor(Math.random()*1000);\r",
+									"pm.environment.set(\"tag_id\", tag_id);\r",
+									"console.log(\"tag_id: \" + tag_id);\r",
+									"\r",
+									"let tag_name = \"TestTag\" + Math.floor(Math.random()*10000);\r",
+									"pm.environment.set(\"tag_name\", tag_name);\r",
+									"console.log(\"tag_name: \" + tag_name);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200://notify developer to change it to 201\r",
+									"        var resBody = pm.response.json();\r",
+									"        let requestBody = JSON.parse(pm.request.body.raw);\r",
+									"       \r",
+									"        pm.test(\"You have successfully updated the pet record.\");\r",
+									"\r",
+									"        pm.environment.set(\"category_id\", requestBody.category.id);\r",
+									"        pm.environment.set(\"tag_id\", requestBody.tags[0].id);\r",
+									"        \r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{petId}},\r\n  \"category\": {\r\n    \"id\": {{category_id}},\r\n    \"name\": \"{{category_name}}\"\r\n  },\r\n  \"name\": \"{{pet_name}}\",\r\n  \"photoUrls\": [\r\n    \"{{photoUrls}}\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": {{tag_id}},\r\n      \"name\": \"{{tag_name}}\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/pet",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find pet after Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json();\r",
+									"\r",
+									"        pm.test(\"Verify Pet id is \" + resBody.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.id).to.equal( parseInt(pm.environment.get(\"petId\") ));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category id is \" + resBody.category.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.id).to.equal(pm.environment.get(\"category_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category name is \" + resBody.category.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.name).to.equal(pm.environment.get(\"category_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet name is \" + resBody.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.name).to.equal(pm.environment.get(\"pet_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify photoUrls is \" + resBody.photoUrls + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.photoUrls[0]).to.equal(pm.environment.get(\"photoUrls\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag id is \" + resBody.tags[0].id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].id).to.equal(pm.environment.get(\"tag_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag name is \" + resBody.tags[0].name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].name).to.equal(pm.environment.get(\"tag_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify status is \" + resBody.status + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.status).to.equal(\"available\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload an image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully upload an image.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message in Response Body\", function(){\r",
+									"            pm.expect(\"additionalMetadata: The pet is so cute\\nFile uploaded to ./cat.jpeg, 5562 bytes\").to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "additionalMetadata",
+									"value": "The pet is so cute",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/rjman/Downloads/cat.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}/uploadImage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pets by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json();\r",
+									"\r",
+									"        pm.test(\"Verify status is 'available' in response body\", function(){\r",
+									"            pm.expect(\"available\").to.equal(resBody[0].status);\r",
+									"        })\r",
+									"        // for(i=0; i<resBody.length; i++){\r",
+									"        //     if(resBody[i].status == \"available\"){\r",
+									"\r",
+									"        //     };\r",
+									"        // };\r",
+									"\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pet/findByStatus/?status=available",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"findByStatus",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "available"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a pet in the store with form data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully update the pet record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"petId\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"petId\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "cat",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "sold",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        var resBody = pm.response.json();\r",
+									"\r",
+									"        pm.test(\"Verify Pet id is \" + resBody.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.id).to.equal( parseInt(pm.environment.get(\"petId\") ));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category id is \" + resBody.category.id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.id).to.equal(pm.environment.get(\"category_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet Category name is \" + resBody.category.name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.category.name).to.equal(pm.environment.get(\"category_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Pet name is 'cat' in Response Body\", function(){\r",
+									"            pm.expect(resBody.name).to.equal(\"cat\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify photoUrls is \" + resBody.photoUrls + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.photoUrls[0]).to.equal(pm.environment.get(\"photoUrls\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag id is \" + resBody.tags[0].id + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].id).to.equal(pm.environment.get(\"tag_id\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify tag name is \" + resBody.tags[0].name + \" in Response Body\", function(){\r",
+									"            pm.expect(resBody.tags[0].name).to.equal(pm.environment.get(\"tag_name\"));\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify status is 'sold' in Response Body\", function(){\r",
+									"            pm.expect(resBody.status).to.equal(\"sold\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        \r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = responseCode.code;\r",
+									"\r",
+									"switch (response) { \r",
+									"    case 200:\r",
+									"        let resBody = pm.response.json()\r",
+									"        pm.test(\"You have successfully delete the pet record.\");\r",
+									"\r",
+									"        pm.test(\"Verify code is 200 in Response Body\", function(){\r",
+									"            pm.expect(200).to.equal(resBody.code);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify type is 'unknown' in Response Body\", function(){\r",
+									"            pm.expect(\"unknown\").to.equal(resBody.type);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify the message is \" + pm.environment.get(\"petId\") + \" in Response Body\", function(){\r",
+									"            pm.expect(pm.environment.get(\"petId\").toString()).to.equal(resBody.message);\r",
+									"        })\r",
+									"\r",
+									"        pm.test(\"Verify Response time is less than 350ms\", function () {//service lavel Aggrement = SLA\r",
+									"            pm.expect( pm.response.responseTime ).to.be.below( 350 )\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    case 400:\r",
+									"        pm.test(\"Bad Request-400\");\r",
+									"        break;\r",
+									"\r",
+									"    case 401:\r",
+									"        pm.test(\"Unable to identify employee\");\r",
+									"        break;\r",
+									"\r",
+									"    case 404:\r",
+									"        pm.test(\"Not Found-404\");\r",
+									"        break;\r",
+									"\r",
+									"    case 500:\r",
+									"        pm.test(\"Internal Server Error -500\");\r",
+									"        break;\r",
+									"    \r",
+									"    case 503:\r",
+									"        pm.test(\"Service Unavailable-503\");\r",
+									"        break;\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "special-key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorizationToken",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pet/{{petId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "userName",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "phone",
+			"value": ""
+		}
+	]
+}
