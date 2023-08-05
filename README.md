@@ -43,7 +43,7 @@ npm install -g newman-reporter-htmlextra
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
    
 2. ### Get a user
 	1. > User ID
@@ -53,13 +53,13 @@ npm install -g newman-reporter-htmlextra
 	5. > Email
 	6. > Phone
 	7. > User Status
-	8. > Response Time below 350
+	8. > Response Time below 350ms
 3. ### Update a user
 	1. > Successful message
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 4. ### Get a user after Update
 	1. > User ID
 	2. > User name
@@ -68,37 +68,37 @@ npm install -g newman-reporter-htmlextra
 	5. > Email
 	6. > Phone
 	7. > User Status
-	8. > Response Time below 350
+	8. > Response Time below 350ms
 5. ### Delete a user
 	1. > Successful message
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 6. ### Get a user after Delete
 	1. > Not found
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 7. ### User Login
 	1. > Successful message
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 8. ### User Logout
 	1. > Successful message
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 9. ### Create List of users with Array
 	1. > Successful message
 	2. > Response Code
 	3. > Response type
 	4. > Response message
-	5. > Response Time below 350
+	5. > Response Time below 350ms
 10. ### Get a User from Array
 	1. > User ID
 	2. > User name
@@ -107,27 +107,66 @@ npm install -g newman-reporter-htmlextra
 	5. > Email
 	6. > Phone
 	7. > User Status
-	8. > Response Time below 350
+	8. > Response Time below 350ms
 
 ## Pet
 1. ## Add a new pet to the store
-
+	1. > Successful message
+	2. > Response Time below 350ms
 2. ## Find Pet by ID
-
+	1. > Pet ID
+	2. > Category ID
+	3. > Category name
+	4. > Pet name
+	5. > PhotoUrls
+	6. > Tags id
+	7. > Tags name
+	8. > Atatus
+	9. > Response Time below 350ms
 3. ## Update an existing pet
-
+	1. > Successful message
+	2. > Response Time below 350ms
 4. ## Find pet after Update
-
+	1. > Pet ID
+	2. > Category ID
+	3. > Category name
+	4. > Pet name
+	5. > PhotoUrls
+	6. > Tags id
+	7. > Tags name
+	8. > Atatus
+	9. > Response Time below 350ms
 5. ## Upload an image
-
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350ms
 6. ## Find Pets bt status
-
+	1. > Status 'available'
+	2. > Response Time below 350ms
 7. ## Update a pet in the store with form-data
-
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350ms
 8. ## Find pet after update
-
+	1. > Pet ID
+	2. > Category ID
+	3. > Category name
+	4. > Pet name
+	5. > PhotoUrls
+	6. > Tags id
+	7. > Tags name
+	8. > Atatus
+	9. > Response Time below 350ms
 9. ## Delete pet
-
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350ms
 ## Store
 1. ## Add a new pet to the store
 
