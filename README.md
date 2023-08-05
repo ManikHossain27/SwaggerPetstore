@@ -39,76 +39,77 @@ npm install -g newman-reporter-htmlextra
 ## User
 1. ### Create a user
 	> Create Data Sets Using the Dynamic Random Variables.
-	1. >  Successful message
-	2. > Response time
-	3. >Response type
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
 	4. > Response message
-	5. > Status code
+	5. > Response Time below 350
    
 2. ### Get a user
+	1. > User ID
+    	2. > User name
+	3. > First name
+	4. > Last name
+	5. > Email
+	6. > Phone
+	7. > User Status
+	8. > Response Time below 350
 3. ### Update a user
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 4. ### Get a user after Update
+	1. > User ID
+    	2. > User name
+	3. > First name
+	4. > Last name
+	5. > Email
+	6. > Phone
+	7. > User Status
+	8. > Response Time below 350
 5. ### Delete a user
+	1. > Successful message
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 6. ### Get a user after Delete
+	1. > Not found
+	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 7. ### User Login
+	1. > Successful message
+    	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 8. ### User Logout
+	1. > Successful message
+    	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 9. ### Create List of users with Array
+	1. > Successful message
+    	2. > Response Code
+	3. > Response type
+	4. > Response message
+	5. > Response Time below 350
 10. ### Get a User from Array
+	1. > User ID
+    	2. > User name
+	3. > First name
+	4. > Last name
+	5. > Email
+	6. > Phone
+	7. > User Status
+	8. > Response Time below 350
 ## Pet
 ## Store
-1. ### Create Student
-	> Create Data Sets Using the Dynamic Random Variables.
-    	1. >  Successful message
-	2. > Response time
-	3. >Response type
-	4. > Response message
-	5. > Status code
-
-2. ### Verify Crated Student Details
-	> In the test case you need to validate the following field values:
- 	1. > First Name
- 	2. > Middle Name
- 	3. > Last Name
- 	4. > Date of Birth
-
-3. ### Update Student
-	> In the test case you need to validate the following field values:
- 	1. > Only Message
-4. ### Verify Verify Updated Student Details
-	> In the test case you need to validate the following field values:
-	1. > First Name
- 	2. > Middle Name
-	3. > Last Name
- 	4. > Date of Birth
-
-5. ### Create Technical skills Create Student Address
-	> In the test case you need to validate the following field values:
-	1. > Only Message
-
-6. ### Create a Student Address
-	> In the test case you need to validate the following field values:
-	1. > Only Message
-
-7. ### Get the Student's Full Details
-	> In the test case you need to validate the following field values:
-	1. > First Name
-	2. > Middle Name
-	3. > Last Name
-	4. > Date of Birth
-	5. > Language
-	6. > Year Of Experience
-	7. > Last Used Date
-	8. > House Number
-	9. > City
-	10. > State
-	11. > Country
-	12. > Std Code
-	13. > Home Address
-	14. > Mobile
-
-8. ### Delete Specific Student
-	> In the test case you need to validate the following field values:
-	1. > Only Message
 
 ## Newman Report Summary:
 ![Newman Report Summary](https://github.com/ManikHossain27/SwaggerPetstore/assets/131261253/a44582b5-0d75-4070-9a73-bb770e00358b)
