@@ -36,13 +36,32 @@ npm install -g newman-reporter-htmlextra
 - https://documenter.getpostman.com/view/26899722/2s9XxyRYjq
 
 ## Test case list:
-1. ## User
-   ### Create a user
-   ### Get a user
-3. ## Pet
-4. ## Store
+## User
+   1. ### Create a user
+   	> Create Data Sets Using the Dynamic Random Variables.
+    	1. >  Successful message
+	2. > Response time
+	3. >Response type
+	4. > Response message
+	5. > Status code
+   2. ### Get a user
+   3. ### Update a user
+   4. ### Get a user after Update
+   5. ### Delete a user
+   6. ### Get a user after Delete
+   7. ### User Login
+   8. ### User Logout
+   9. ### Create List of users with Array
+   10. ### Get a User from Array
+## Pet
+## Store
 1. ### Create Student
 	> Create Data Sets Using the Dynamic Random Variables.
+    	1. >  Successful message
+	2. > Response time
+	3. >Response type
+	4. > Response message
+	5. > Status code
 
 2. ### Verify Crated Student Details
 	> In the test case you need to validate the following field values:
